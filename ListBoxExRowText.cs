@@ -11,6 +11,12 @@ namespace dive
     {
         private string _text;
 
+        public ListBoxExRowText()
+        {
+            _height = 60;
+            _text = "";
+        }
+
         public ListBoxExRowText(string text)
         {
             _height = 60;

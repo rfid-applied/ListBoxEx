@@ -13,6 +13,7 @@ namespace dive
         private  static Font _fontFirstLine = new Font("Tahoma", 15, FontStyle.Bold);
         private static Font _fontSecondLine = new Font("Tahoma", 11, FontStyle.Regular);
 
+        private static bool _fontHeightInitialized = false;
         private static int _fontHeightFirst;
         private static int _fontHeightSecond;
 
@@ -21,20 +22,43 @@ namespace dive
         private static int _spacingV = 2;       // 行間空白
 
         private string _textFirst;
+        public string Text1
+        {
+            get { return _textFirst; }
+            set { _textFirst = value; }
+        }
         private string _textSecond;
+        public string Text2
+        {
+            get { return _textSecond; }
+            set { _textSecond = value; }
+        }
+
+        public ListBoxExRowTwoLine()
+        {
+            FontHeight();
+
+            _height = _fontHeightFirst + _fontHeightSecond + _paddingH * 3;
+        }
 
         public ListBoxExRowTwoLine(string text1, string text2)
         {
             _textFirst = text1;
             _textSecond = text2;
 
+            FontHeight();
+
             _height = _fontHeightFirst + _fontHeightSecond + _paddingH * 3;
         }
 
         public static void FontHeight()
         {
+            if (_fontHeightInitialized)
+                return;
+
             _fontHeightFirst = (int)Graphics.FromImage(ListBoxEx.OffScreen).MeasureString("A", _fontFirstLine).Height;
             _fontHeightSecond = (int)Graphics.FromImage(ListBoxEx.OffScreen).MeasureString("A", _fontSecondLine).Height;
+            _fontHeightInitialized = true;
         }
 
         public override int Width {

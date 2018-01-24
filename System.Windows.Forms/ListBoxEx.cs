@@ -32,7 +32,7 @@ namespace System.Windows.Forms
         ObjectCollection _items;            // アイテムデータ
 
         int _selectedIndex;                 // インデックス
-        Border _border;                     // ボーダー
+        BorderValue _border;                     // ボーダー
         Bitmap _backgroundImage = null;     // 背景画像
         int _backgroundAlignment = 0;       // 背景画像配置指定 0:左上、1:中央上、2:右上、3:左中、4:中央中、5:右中、6:左下、7:中央下、8:右下
         int _backgroundX = 0;               // 背景画像配置座標 X
@@ -91,7 +91,7 @@ namespace System.Windows.Forms
             _items = new ObjectCollection();
             _items.Parent = this;
 
-            _border = new Border();
+            //_border = new Border();
 
             _selectedBackColor = Color.FromArgb(49, 199, 214);
             _lineColor = Color.Gray;
@@ -249,7 +249,7 @@ namespace System.Windows.Forms
         /// <summary>
         /// 枠線プロパティ
         /// </summary>
-        public Border Border
+        public BorderValue Border
         {
             get { return _border; }
             set { _border = value; }
@@ -1164,7 +1164,7 @@ namespace System.Windows.Forms
             }
 
             int topoffset = 0;
-            if (Border.Top || Border.Value)
+            if (((Border & BorderValue.Top) > 0) || ((Border & BorderValue.Value) > 0))
             {
                 topoffset = 1;
             }
@@ -1272,32 +1272,32 @@ namespace System.Windows.Forms
 
             // 枠描画
             // 外周
-            if (_border.Value)
+            if ((_border & BorderValue.Value) > 0)
             {
                 g.DrawRectangle(new Pen(_lineColor), new Rectangle(0, hideheight, Width - 1, Height - 1));
             }
             else
             {
                 // 上線
-                if (_border.Top)
+                if ((_border & BorderValue.Top) > 0)
                 {
                     g.DrawLine(new Pen(_lineColor, 1), 0, hideheight, Width - 1, hideheight);
                 }
 
                 // 下線
-                if (_border.Bottom)
+                if ((_border & BorderValue.Bottom) > 0)
                 {
                     g.DrawLine(new Pen(_lineColor, 1), 0, hideheight + Height - 1, Width - 1, hideheight + Height - 1);
                 }
 
                 // 左線
-                if (_border.Left)
+                if ((_border & BorderValue.Left) > 0)
                 {
                     g.DrawLine(new Pen(_lineColor, 1), 0, hideheight - 1, 0, hideheight + Height - 1);
                 }
 
                 // 右線
-                if (_border.Right)
+                if ((_border & BorderValue.Right) > 0)
                 {
                     g.DrawLine(new Pen(_lineColor, 1), Width - 1, hideheight - 1, Width - 1, hideheight + Height - 1);
                 }
@@ -1644,59 +1644,15 @@ namespace System.Windows.Forms
         }
     }
 
-    // 罫線クラス
-    class Border
+    [Flags]
+    enum BorderValue
     {
-        enum BorderValue
-        {
-            BorderTop = 1,                      // 枠線：上
-            BorderBottom = 2,                   // 枠線：下
-            BorderLeft = 4,                     // 枠線：左
-            BorderRight = 8,                    // 枠線：右
-        };
-
-        bool _borderValue = false;
-        bool _borderTop = false;
-        bool _borderBottom = false;
-        bool _borderLeft = false;
-        bool _borderRight = false;
-
-        public Border()
-        {
-
-        }
-
-        public bool Value
-        {
-            get { return _borderValue; }
-            set { _borderValue = value; }
-        }
-
-        public bool Top
-        {
-            get { return _borderTop; }
-            set { _borderTop = value; }
-        }
-
-        public bool Bottom
-        {
-            get { return _borderBottom; }
-            set { _borderBottom = value; ; }
-        }
-
-        public bool Left
-        {
-            get { return _borderLeft; }
-            set { _borderLeft = value; }
-        }
-
-        public bool Right
-        {
-            get { return _borderRight; }
-            set { _borderRight = value; }
-        }
-
-    }
+        Top = 1,                      // 枠線：上
+        Bottom = 2,                   // 枠線：下
+        Left = 4,                     // 枠線：左
+        Right = 8,                    // 枠線：右
+        Value = 16,
+    };
 
 #if PocketPC
     // タイムクラス

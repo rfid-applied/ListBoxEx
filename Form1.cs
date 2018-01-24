@@ -22,25 +22,25 @@ namespace ListBoxExSample
             // リストボックス描画停止
             listBoxEx1.ScreenUpdating = true;
 
-            listBoxEx1.Border.Top = true;
+            listBoxEx1.Border = BorderValue.Top;
             
             ListBoxExRowText row;
             ListBoxExRowLabel rowLabel;
 
             // イベント指定
-            rowLabel = new ListBoxExRowLabel("行のクリックイベント");
+            rowLabel = new ListBoxExRowLabel("rowLabel 1");
             listBoxEx1.Items.Add(rowLabel);
 
-            row = new ListBoxExRowText("行イベント１");
+            row = new ListBoxExRowText("row 1");
             row.Click += new EventHandler(row_Click);
             listBoxEx1.Items.Add(row);
 
-            row = new ListBoxExRowText("行イベント２");
-            row.Click += new EventHandler(delegate { MessageBox.Show("クリックされました。"); });
+            row = new ListBoxExRowText("row 2");
+            row.Click += new EventHandler(delegate { MessageBox.Show("clicked row 2"); });
             listBoxEx1.Items.Add(row);
 
             // 複数行
-            rowLabel = new ListBoxExRowLabel("複数行");
+            rowLabel = new ListBoxExRowLabel("row label 2");
             listBoxEx1.Items.Add(rowLabel);
 
             ListBoxExRowTextMultiLine rowml;
@@ -108,7 +108,6 @@ namespace ListBoxExSample
             listBoxEx1.Items.Add(new ListBoxExRowDown("Down1", "ダウンボックス1", "テスト"));
             listBoxEx1.Items.Add(new ListBoxExRowDown("Down1", "ダウンボックス2"));
 
-
             rowLabel = new ListBoxExRowLabel("繰り返し");
             listBoxEx1.Items.Add(rowLabel);
 
@@ -123,6 +122,8 @@ namespace ListBoxExSample
 
             row = new ListBoxExRowText("途中に追加");
             listBoxEx1.Items.Insert(30, row);
+
+            listBoxEx1.Items.Add(new ListBoxExRowTextMultiLine("HELLO\r\nthere\r\nand again!\r\n\rnand... AGAIN"));
 
             // リストボックス描画再開
             listBoxEx1.ScreenUpdating = true;

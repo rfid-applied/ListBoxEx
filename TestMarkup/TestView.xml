@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tst:MyOwnClass
+  xmlns="http://mobileui.codeplex.com/v1"
+  xmlns:x="http://mobileui.codeplex.com/xaml"
+  xmlns:tst="TestMarkup,TestMarkup"
+  Description="THE MOST DESCRIPTIVE THING"
+  Height="25">
+  <tst:DrawingPanel.Children>
+    <tst:MyOwnChild ID="child1"/>
+    <tst:MyOwnChild ID="child2"/>
+  </tst:DrawingPanel.Children>  
+</tst:MyOwnClass>

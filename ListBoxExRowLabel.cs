@@ -19,6 +19,15 @@ namespace dive
         Color _foreColor = Color.White;
         Color _backColor = Color.Black;
 
+        public ListBoxExRowLabel()
+        {
+            _font = _defaultFont;
+
+            _text = "";
+
+            NewHeight();
+        }
+
         public ListBoxExRowLabel(string text)
         {
             _font = _defaultFont;
@@ -45,6 +54,7 @@ namespace dive
                 _text = value;
 
                 // データによって高さが変わる場合はここで _height を計算しなおす
+                NewHeight();
             }
         }
 

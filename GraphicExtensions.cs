@@ -69,8 +69,14 @@ internal static class GraphicExtentions
 
         return new SizeF(bounds.Right - bounds.Left, bounds.Bottom - bounds.Top);
 #else
-        SizeF size = graphic.MeasureString(text, font, rectangle.Width, StringFormat.GenericDefault);
-        return size;
+        using (var image = new Bitmap(1, 1))
+        {
+            using (var g = Graphics.FromImage(image))
+            {
+                SizeF size = g.MeasureString(text, font, rectangle.Width, StringFormat.GenericDefault);
+                return size;
+            }
+        }
 #endif
     }
 

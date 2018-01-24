@@ -16,6 +16,13 @@ namespace dive
 
         private string _text;
 
+        public ListBoxExRowTextMultiLine()
+        {
+            _height = 60;
+            _text = "";
+
+            NewHeight();
+        }
         public ListBoxExRowTextMultiLine(string text)
         {
             _height = 60;

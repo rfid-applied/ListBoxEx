@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<lb0:ListBoxEx
+  xmlns="http://mobileui.codeplex.com/v1"
+  xmlns:x="http://mobileui.codeplex.com/xaml"
+  xmlns:wf="System.Windows.Forms,System.Windows.Forms"
+  xmlns:lb0="System.Windows.Forms,ListBoxExSample"
+  xmlns:lb1="dive,ListBoxExSample"
+  InertiaScroll="true"
+  Location="0,0"
+  Name="listBoxEx1"
+  Size="240,268"
+  Text="listBoxEx1"
+  Anchor="Top,Left,Bottom,Right"
+  ScrollTop="0"
+  Border="Top">
+  <lb0:ListBoxEx.Items>
+    <lb1:ListBoxExRowLabel Text="Label 1"/>
+    <lb1:ListBoxExRowText Text="text"/>
+    <lb1:ListBoxExRowLabel Text="Label 2"/>
+    <lb1:ListBoxExRowTextMultiLine Text="Hello
+There!">
+    </lb1:ListBoxExRowTextMultiLine>
+
+    <lb1:ListBoxExRowLabel Text="Radio Group"/>
+    <lb1:ListBoxExRowOption Group="Group1" Name="Option1" Text="text" Description="Text" Value="true"/>
+    <lb1:ListBoxExRowOption Group="Group1" Name="Option2" Text="text2" Description="MYDESCRIPTION"/>
+    <lb1:ListBoxExRowOption Group="Group1" Name="Option3" Text="text3" Description="HEEEYAA"/>
+
+    <lb1:ListBoxExRowLabel Text="Down"/>
+    <lb1:ListBoxExRowDown Name="Down1" Text="TEXT1" Description="description"/>
+    <lb1:ListBoxExRowDown Name="Down2" Text="TEXT2"/>
+
+    <lb1:ListBoxExRowLabel Text="Two Lines"/>
+    <lb1:ListBoxExRowTwoLine Text1="Remove" Text2="Remove the item"/>
+
+  </lb0:ListBoxEx.Items>
+</lb0:ListBoxEx>
