@@ -12,6 +12,13 @@ It should be noted that based on this, one could create an environment
 for form design and compile-time checking (a LINQPad for WinForms of
 sorts, free of VS2008 absurdities).
 
+# Screenshots
+
+Same [form](TestView.xml), different devices:
+
+[Windows XP](screenshots/TestXP.png)
+[Windows Mobile 6](screenshots/TestWM.png)
+
 # Credits
 
 * controls from https://github.com/KarinoTaro/ListBoxEx
