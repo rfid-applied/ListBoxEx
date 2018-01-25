@@ -229,11 +229,25 @@ namespace ListBoxExSample.Xaml
                 }
             }
 
-            var splitNamespace = rootElement.Namespace.Split(',');
+
+
+            int idx = rootElement.Namespace.IndexOf(',');
+            string splitName, splitNamespace;
+            if (idx == -1)
+            {
+                splitName = rootElement.Namespace;
+                splitNamespace = "";
+            }
+            else
+            {
+                splitName = rootElement.Namespace.Substring(0, idx);
+                splitNamespace = rootElement.Namespace.Substring(idx + 1);
+            }
+
             return string.Format("{0}.{1},{2}",
-                splitNamespace[0],
+                splitName,
                 rootElement.Name,
-                splitNamespace.Length == 1 ? DefaultAssemblyName : splitNamespace[1]);
+                splitNamespace.Length == 1 ? DefaultAssemblyName : splitNamespace);
         }
 
         private object CreateInstance(object parentInstance, XamlElement rootElement)
