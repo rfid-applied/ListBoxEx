@@ -12,5 +12,7 @@ namespace Spencen.Mobile.Markup
 
         public string Name { get; private set; }
         public string Namespace { get; private set; }
+        public Position StartPos { get; set; }
+        public Position EndPos { get; set; }
     }
 }

@@ -10,10 +10,20 @@ namespace ListBoxExSample
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
+#if PocketPC
         [MTAThread]
+#else
+        [STAThread]
+#endif
         static void Main()
         {
-            Application.Run(new Form2());
+            Form form;
+#if PocketPC
+            form = new Form3();
+#else
+            form = new Form2();
+#endif
+            Application.Run(form);
         }
     }
 }

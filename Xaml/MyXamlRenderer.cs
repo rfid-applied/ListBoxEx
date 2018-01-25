@@ -42,13 +42,14 @@ namespace ListBoxExSample.Xaml
             return _resourceDictionary[resourceName];
         }
 
-        public object Render(System.IO.Stream stream)
+        public XamlElement Render(System.IO.Stream stream)
         {
             var xmlReader = new XmlTextReader(stream);
             var xamlReader = new XamlReader();
             var rootElement = xamlReader.Read(xmlReader);
 
-            return Render(null, rootElement);
+            var res = Render(null, rootElement);
+            return rootElement;
         }
 
         public object Render(object parentInstance, XamlElement rootElement)
@@ -84,6 +85,8 @@ namespace ListBoxExSample.Xaml
         private object GetInstanceForMarkupElement(object parentInstance, XamlElement rootElement)
         {
             var instance = CreateInstance(parentInstance, rootElement);
+
+            rootElement.Instance = instance;
 
             /*
             if (instance is DrawingElement && parentInstance is DrawingContainer)

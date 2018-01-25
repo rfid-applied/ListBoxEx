@@ -68,6 +68,7 @@
     <Compile Include="ListBoxExRowText.cs" />
     <Compile Include="ListBoxExRowTextMultiLine.cs" />
     <Compile Include="ListBoxExRowTwoLine.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

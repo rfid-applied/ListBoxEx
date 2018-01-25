@@ -60,22 +60,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphicExtensions.cs" />
-    <Compile Include="Form2.cs">
+    <Compile Include="Form3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Form3.Designer.cs">
+      <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphicExtensions.cs" />
     <Compile Include="ListBoxExRowText.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,7 +102,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="00_changelog.txt" />
-    <EmbeddedResource Include="TestView.xml" />
+    <EmbeddedResource Include="Form3.resx">
+      <DependentUpon>Form3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="TestView.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Spencen.Mobile.Markup\Spencen.Mobile.Markup.csproj">

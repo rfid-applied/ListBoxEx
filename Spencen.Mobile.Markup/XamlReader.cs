@@ -11,6 +11,7 @@ namespace Spencen.Mobile.Markup
 
         public XamlElement Read( XmlReader xmlReader )
         {
+            var xli = (IXmlLineInfo)xmlReader;
             Stack<XamlElement> stack = new Stack<XamlElement>();
             XamlElement currentElement = null;
             XamlElement parentElement = null;
@@ -21,6 +22,7 @@ namespace Spencen.Mobile.Markup
                 {
                     case XmlNodeType.Element:
                         currentElement = new XamlElement( xmlReader.LocalName, xmlReader.NamespaceURI );
+                        currentElement.StartPos = new Position(xli.LineNumber, xli.LinePosition-1);
 
                         if ( parentElement != null )
                             parentElement.Children.Add( currentElement );
@@ -31,15 +33,18 @@ namespace Spencen.Mobile.Markup
                             stack.Push( currentElement );
                         }
 
-                        if ( xmlReader.HasAttributes )
+                        if (xmlReader.HasAttributes)
                             xmlReader.MoveToFirstAttribute();
                         else
+                        {
                             xmlReader.Read();
+                            currentElement.EndPos = new Position(xli.LineNumber, xli.LinePosition);
+                        }
 
                         break;
 
                     case XmlNodeType.Attribute:
-                        ProcessAttribute( xmlReader, currentElement );
+                        ProcessAttribute( xmlReader, currentElement, xli );
                         break;
 
                     case XmlNodeType.Text:
@@ -49,6 +54,7 @@ namespace Spencen.Mobile.Markup
 
                     case XmlNodeType.EndElement:
                         currentElement = stack.Pop();
+                        currentElement.EndPos = new Position(xli.LineNumber, xli.LinePosition + xmlReader.LocalName.Length + (string.IsNullOrEmpty(xmlReader.Prefix)? 0 : xmlReader.Prefix.Length + 1) + 1);
                         parentElement = stack.Count == 0 ? null : stack.Peek();
                         xmlReader.Read();
                         break;
@@ -61,8 +67,10 @@ namespace Spencen.Mobile.Markup
             return currentElement;
         }
 
-        private void ProcessAttribute( XmlReader xmlReader, XamlElement currentElement )
+        private void ProcessAttribute( XmlReader xmlReader, XamlElement currentElement, IXmlLineInfo xli )
         {
+            XamlAttribute lastAttribute = null;
+
             if ( xmlReader.Prefix == "xmlns" || xmlReader.Name == "xmlns" )
             { /* Ignore */ }
             else
@@ -78,11 +86,21 @@ namespace Spencen.Mobile.Markup
                 {
                     var attribute = new XamlAttribute( xmlReader.LocalName, xmlReader.NamespaceURI );
                     attribute.Value = xmlReader.Value;
-                    currentElement.Attributes.Add( attribute );
+                    attribute.StartPos = new Position(xli.LineNumber, xli.LinePosition);
+                    currentElement.Attributes.Add(attribute);
+                    lastAttribute = attribute;
                 }
             }
-            if ( !xmlReader.MoveToNextAttribute() )
+            if (!xmlReader.MoveToNextAttribute())
+            {
                 xmlReader.Read();
+                currentElement.EndPos = new Position(xli.LineNumber, xli.LinePosition);
+            }
+
+            if (lastAttribute != null)
+            {
+                lastAttribute.EndPos = new Position(xli.LineNumber, xli.LinePosition);
+            }
         }
     }
 }

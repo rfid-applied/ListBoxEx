@@ -8,5 +8,5 @@
   <tst:DrawingPanel.Children>
     <tst:MyOwnChild ID="child1"/>
     <tst:MyOwnChild ID="child2"/>
-  </tst:DrawingPanel.Children>  
+  </tst:DrawingPanel.Children>
 </tst:MyOwnClass>

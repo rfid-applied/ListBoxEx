@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<x:x
+  xmlns="http://mobileui.codeplex.com/v1"
+  xmlns:x="http://example.org/">
+  <x:y a="1" b="2"/>
+  <x:z/>
+</x:x>
