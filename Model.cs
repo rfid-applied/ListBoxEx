@@ -6,8 +6,8 @@ using ListBoxExSample.Xaml;
 
 namespace ListBoxExSample
 {
-    public abstract class Action { }
-    public class SetFile : Action
+    public abstract class Proposal { }
+    public class SetFile : Proposal
     {
         public SetFile(string filename, string source)
         {
@@ -20,19 +20,19 @@ namespace ListBoxExSample
         string _source;
         public string Source { get { return _source; } }
     }
-    public class RefreshFromFile : Action
+    public class RefreshFromFile : Proposal
     {
         public RefreshFromFile(string source) { _source = source; }
         string _source;
         public string Source { get { return _source; } }
     }
-    public class SelectElement : Action
+    public class SelectElement : Proposal
     {
         public SelectElement(Spencen.Mobile.Markup.XamlElement element) { _element = element; }
         Spencen.Mobile.Markup.XamlElement _element;
         public Spencen.Mobile.Markup.XamlElement Element { get { return _element; } }
     }
-    public class ShowError : Action
+    public class ShowError : Proposal
     {
         public ShowError(string context, Exception ex) { _context = context; _ex = ex; }
         string _context;
@@ -59,7 +59,7 @@ namespace ListBoxExSample
 
         public void SetFile(string filename)
         {
-            Action action;
+            Proposal action;
 
             try
             {
@@ -88,7 +88,7 @@ namespace ListBoxExSample
 
         public void RefreshFromFile()
         {
-            Action action;
+            Proposal action;
 
             if (string.IsNullOrEmpty(_model.FileName))
                 action = new ShowError("Please select a file first!", null);
@@ -104,7 +104,7 @@ namespace ListBoxExSample
 
         public void SelectElement(Spencen.Mobile.Markup.XamlElement element)
         {
-            Action action;
+            Proposal action;
 
             if (element == null)
                 return; // just ignore
@@ -139,7 +139,7 @@ namespace ListBoxExSample
         public Spencen.Mobile.Markup.XamlElement Selected { get { return _selected; } }
         public Exception LastError { get { return _lastError; } }
 
-        public void Present(Action action)
+        public void Present(Proposal action)
         {
             var needsRefresh = false;
 

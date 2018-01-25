@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using ListBoxExSample.Xaml;
 using System.Xml;
+using System.IO;
 
 namespace ListBoxExSample
 {
@@ -20,6 +21,7 @@ namespace ListBoxExSample
             _actions = new Actions(_model, MyUpdate);
         }
 
+        FileSystemWatcher _watcher;
         Spencen.Mobile.Markup.XamlElement _root;
 
         void MyUpdate(Model model)
@@ -187,7 +189,82 @@ namespace ListBoxExSample
             if (string.IsNullOrEmpty(chosenFileName))
                 return;
 
+            // as soon as a file is selected, watch for its changes in a background thread
+            // & notify back to retrieve changes
             _actions.SetFile(chosenFileName);
+
+            DisposeWatcher();
+            _watcher = new FileSystemWatcher();
+            _watcher.Path = Path.GetDirectoryName(chosenFileName);
+            _watcher.Filter = Path.GetFileName(chosenFileName);
+            _watcher.EnableRaisingEvents = true;
+            _watcher.Changed += new FileSystemEventHandler(_watcher_Changed);
+        }
+
+        void DisposeWatcher()
+        {
+            if (_watcher != null)
+            {
+                _watcher.Changed -= new FileSystemEventHandler(_watcher_Changed);
+                _watcher.Dispose();
+                _watcher = null;
+            }
+        }
+
+        #region Safe Background Updates
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            lock (_sync)
+            {
+                _formClosed = true;
+            }
+            base.OnClosing(e);
+        }
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            lock (_sync)
+            {
+                _formClosed = true;
+            }
+            base.OnHandleDestroyed(e);
+        }
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            lock (_sync)
+            {
+                _formClosed = false;
+            }
+            base.OnHandleCreated(e);
+        }
+
+        private bool _formClosed = false;
+        private object _sync = new object();
+        
+        public void ScheduleActions(Action action)
+        {
+            lock (_sync)
+            {
+                if (_formClosed)
+                    return;
+            }
+
+            if (InvokeRequired)
+                Invoke(action);
+            else
+                action();
+        }
+        #endregion
+
+        void _watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            ScheduleActions(() => {
+                _actions.RefreshFromFile();
+            });
+        }
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DisposeWatcher();
         }
     }
 
